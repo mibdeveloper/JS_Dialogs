@@ -13,9 +13,23 @@ $(function(){
 		
 		if((password.length  > 3) && (password == passwordConfirmation)){
 			//TODO: Send message
+			let $resultObj = $.post( "ajax.php" , 
+				{"email":email, "password":password}, 
+				signupSuccess.bind($form.find(".modal-body")) ,"json");  
+			$resultObj.fail(failHandler.bind($form.find(".modal-body")));
+
 		}else{
 			//TODO: Error message
 			alert("Password Error");
 		}
 	});
-})
+});
+
+
+function signupSuccess(data) {
+	this.html(data.message);
+}
+
+function failHandler(data) {
+	this.html(data.statusText);
+}
